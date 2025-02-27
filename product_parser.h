@@ -7,7 +7,7 @@
 class ProductParser
 {
 public:
-    ProductParser();
+    ProductParser();//default
 
     virtual ~ProductParser();//not pure so can be adapted for children
 
@@ -51,6 +51,7 @@ protected:
      */
     virtual Product* makeProduct() = 0;
 
+    std::string category;
     std::string prodName_;
     double price_;
     int qty_;
@@ -61,7 +62,7 @@ protected:
 class ProductBookParser : public ProductParser
 {
 public:
-    ProductBookParser();
+    ProductBookParser(); //onfused, what info is needed fro a book
     Product* parseSpecificProduct(std::string category,
                                   std::istream& is,
                                   bool& error,
@@ -71,7 +72,7 @@ public:
     std::string categoryID();
 
 protected:
-    Product* makeProduct();
+    Product* makeProduct();//will need to adjust with the book and etc
 
 private:
     std::string isbn_;

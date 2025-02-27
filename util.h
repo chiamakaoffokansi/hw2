@@ -16,20 +16,30 @@ std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
   //template beign used here, if onlogn it will 
   //prob be a for loop, conditional i that leads to 
   //another for loop
+  std::set<T> prod;
 
-
-
-
-
+ for(typename std::set<T>::iterator j = s1.begin(); j!=s1.end(); j++){
+  if(s2.find(*j)!=s2.end()){
+    prod.insert(*j);
+  }
+ }
+  return prod;
 }
+
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
+std::set<T> prod;
 
+  for(typename std::set<T>::iterator i = s1.begin(); i!=s1.end(); i++){
+    prod.insert(*i);
+  }
 
+  for(typename std::set<T>::iterator x = s1.begin(); x!=s1.end(); x++){
+    prod.insert(*x);
+  }
 
-
-
+  return prod;
 }
 
 /***********************************************/

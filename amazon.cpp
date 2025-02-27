@@ -5,10 +5,12 @@
 #include <vector>
 #include <iomanip>
 #include <algorithm>
+
+#include "util.h"
+#include "mydatastore.h"
 #include "product.h"
 #include "db_parser.h"
 #include "product_parser.h"
-#include "util.h"
 
 using namespace std;
 struct ProdNameSorter {
@@ -29,13 +31,11 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
-
-
+    MyDataStore ds;
 
     // Instantiate the individual section and product parsers we want
     ProductSectionParser* productSectionParser = new ProductSectionParser;
-    productSectionParser->addProductParser(new ProductBookParser);
+    productSectionParser->addProductParser(new ProductBookParser);//not even reaching book part
     productSectionParser->addProductParser(new ProductClothingParser);
     productSectionParser->addProductParser(new ProductMovieParser);
     UserSectionParser* userSectionParser = new UserSectionParser;
@@ -100,16 +100,58 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
+      //need to add commands here !!!
+          else if( cmd == "ADD"){
+            //do we error check fro the username
+            string u_name;
+            int ind;
 
+            if(ss>>u_name>>ind){ //diff conditionals to make it work
+              ds.addCart(u_name, hits[ind-1]);
+              //cout<<ds.dump()<<endl;
+            }
+            else{
+              cout<<"Invalid Request"<<endl; //conditional check fail
+            }
+          }
+          else if( cmd == "BUYCART"){
+            string u_name;
 
+            if(ss>>u_name){//only parsing uname bc its th eonly parameter
+              ds.buyCart(u_name);
+            }
+            else{
+              cout<<"Invalid Username"<<endl;
+            }
+          }
+          else if( cmd == "VIEWCART" ){
+            string u_name;
 
-
+            if(ss>>u_name){ //parsing in the uname only since only parameter
+              ds.viewCart(u_name);
+            }
+            else{
+              cout<<"Invalid Username"<<endl;
+            }
+          }
             else {
                 cout << "Unknown command" << endl;
             }
         }
 
     }
+    //clear mem here
+
+    vector<Product*> productAccess = ds.getProducts();
+    vector<User*> userAccess = ds.getAccounts();
+
+    for(unsigned int i=0; i<productAccess.size(); i++){
+      delete productAccess[i];
+    }
+    for(unsigned int i=0; i<userAccess.size(); i++){
+      delete userAccess[i];
+    }
+
     return 0;
 }
 

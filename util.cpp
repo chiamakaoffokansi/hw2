@@ -15,16 +15,49 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
-
 //this a template may be needed here 
 
+std::set<string> keywords;
 
+std::string word = convToLower(rawWords);
+std::stringstream ss;
+std::string search;
 
+std::string s_chopped;
+std::string e_chopped;
 
+while(word.length()>1){ //conditional for searches, if more than 1 it will run
 
+  ss<<word;
 
+  while(ss>>search){
 
-
+    if (search.length()>1){
+      for(unsigned int i=0; i<search.length(); i++){ //will run for length of the word
+        if(!ispunct(search[i])){
+          s_chopped+=search[i];
+        }
+        else{
+          for(unsigned int z = i+1; z<search.length(); z++){
+            e_chopped+=search[z]; //combining the two
+          }
+          break;
+        }
+      }
+      if(s_chopped.length()>e_chopped.length()){
+        keywords.insert(s_chopped);
+      }
+      else{
+        keywords.insert(e_chopped); 
+      }
+      s_chopped.clear(); //clearing the start chopped of the word
+      e_chopped.clear(); //clearing end chopped of thw word
+    }
+    search.clear(); //clearing search after process entirely 
+  }
+}
+  
+  return keywords;
 }
 
 /**************************************************

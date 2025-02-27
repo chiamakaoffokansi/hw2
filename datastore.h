@@ -16,14 +16,14 @@
  */
 
 
-class DataStore {
+class DataStore {//needs to be derived from this clas...so make a new header
 public:
     virtual ~DataStore() { }
 
     /**
      * Adds a product to the data store
      */
-    virtual void addProduct(Product* p) = 0;
+    virtual void addProduct(Product* p) = 0; //pure virtual
 
     /**
      * Adds a user to the data store
